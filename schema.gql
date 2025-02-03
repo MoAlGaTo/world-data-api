@@ -1,0 +1,99 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  _id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  birthDate: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserDto {
+  firstName: String!
+  lastName: String!
+  email: String!
+  birthDate: DateTime!
+}
+
+type LoginResponseDto {
+  access_token: String!
+  user: UserDto!
+}
+
+type Currency {
+  name: String!
+  symbol: String!
+}
+
+type Maps {
+  googleMaps: String!
+  openStreetMaps: String!
+}
+
+type Country {
+  name: String!
+  geoJson: GeoJSON
+  tld: [String!]!
+  cca2: String!
+  ccn3: String!
+  cca3: String!
+  cioc: String!
+  fifa: String!
+  independent: Boolean!
+  status: String!
+  unMember: Boolean!
+  currencies: [Currency!]!
+  callingcode: String!
+  capital: [String!]!
+  altSpellings: [String!]!
+  region: String!
+  subregion: String!
+  continents: [String!]!
+  languages: [String!]!
+  latlng: [Float!]!
+  landlocked: Boolean!
+  borders: [String!]!
+  area: Float!
+  flag: String!
+  coatOfArms: String!
+  population: Float!
+  maps: Maps!
+  postalCodeFormat: String
+  startOfWeek: String!
+  timezones: [String!]!
+}
+
+"""A custom scalar type for GeoJSON data"""
+scalar GeoJSON
+
+type Query {
+  whoAmI: User!
+  getUsers: [User!]!
+  getCountrieData: [Country!]!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
+  login(input: LoginInput!): LoginResponseDto!
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  birthDate: DateTime!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
