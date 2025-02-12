@@ -18,8 +18,8 @@ async function bootstrap() {
 
   app.use(
     cors({
-      // credentials: true,
-      origin: '*',
+      credentials: true,
+      origin: 'http://13.39.110.38',
     }),
   );
 
