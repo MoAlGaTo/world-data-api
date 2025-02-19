@@ -19,7 +19,7 @@ async function bootstrap() {
   app.use(
     cors({
       credentials: true,
-      origin: 'http://35.180.47.79',
+      origin: 'http://13.39.50.226',
     }),
   );
 
