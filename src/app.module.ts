@@ -14,7 +14,7 @@ import { MapModule } from './map/map.module';
       isGlobal: true,
     }),
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/world-data'),
+    MongooseModule.forRoot('mongodb://127.0.0.1:27017/world-data'),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
