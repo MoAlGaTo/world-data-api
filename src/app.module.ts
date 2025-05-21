@@ -19,6 +19,7 @@ import { MapModule } from './map/map.module';
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       playground: true,
+      context: ({ req, res }) => ({ req, res }),
     }),
     MapModule,
   ],

@@ -4,8 +4,5 @@ import { UserDto } from './user.dto';
 @ObjectType()
 export class LoginResponseDto {
   @Field()
-  access_token: string;
-
-  @Field(() => UserDto)
   user: UserDto;
 }

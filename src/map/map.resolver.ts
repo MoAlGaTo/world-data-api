@@ -10,7 +10,7 @@ export class MapResolver {
   constructor(private mapService: MapService) {}
 
   @Query(() => [Country])
-  async getCountrieData(): Promise<Country[]> {
+  async getCountriesData(): Promise<Country[]> {
     const countries: Country[] = await this.mapService.getCountriesData();
     return countries;
   }

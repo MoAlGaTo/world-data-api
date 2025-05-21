@@ -9,7 +9,13 @@ import { User } from './user.schema';
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private usersService: UsersService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req: Request) => {
+          const token = (req as any).cookies?.token;
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          return token;
+        },
+      ]),
       ignoreExpiration: false,
       secretOrKey: `${process.env.JWT_SECRET}`,
     });

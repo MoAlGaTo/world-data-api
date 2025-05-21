@@ -24,7 +24,6 @@ type UserDto {
 }
 
 type LoginResponseDto {
-  access_token: String!
   user: UserDto!
 }
 
@@ -38,8 +37,17 @@ type Maps {
   openStreetMaps: String!
 }
 
+type CountryName {
+  common: String!
+  official: String!
+}
+
+type Flags {
+  png: String!
+}
+
 type Country {
-  name: String!
+  name: CountryName!
   geoJson: GeoJSON
   tld: [String!]!
   cca2: String!
@@ -51,7 +59,6 @@ type Country {
   status: String!
   unMember: Boolean!
   currencies: [Currency!]!
-  callingcode: String!
   capital: [String!]!
   altSpellings: [String!]!
   region: String!
@@ -62,7 +69,7 @@ type Country {
   landlocked: Boolean!
   borders: [String!]!
   area: Float!
-  flag: String!
+  flags: Flags!
   coatOfArms: String!
   population: Float!
   maps: Maps!
@@ -76,13 +83,13 @@ scalar GeoJSON
 
 type Query {
   whoAmI: User!
-  getUsers: [User!]!
-  getCountrieData: [Country!]!
+  getCountriesData: [Country!]!
 }
 
 type Mutation {
   createUser(input: CreateUserInput!): User!
   login(input: LoginInput!): LoginResponseDto!
+  logout: Boolean!
 }
 
 input CreateUserInput {

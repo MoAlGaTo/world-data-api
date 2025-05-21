@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
+import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 
 async function bootstrap() {
@@ -16,10 +17,12 @@ async function bootstrap() {
     }),
   );
 
+  app.use(cookieParser());
+
   app.use(
     cors({
       credentials: true,
-      origin: 'http://13.39.50.226',
+      origin: 'http://localhost:4200',
     }),
   );
 

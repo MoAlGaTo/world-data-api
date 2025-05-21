@@ -6,11 +6,17 @@ import { PayloadToken } from './types/payload-token';
 export class AuthService {
   constructor(private jwtService: JwtService) {}
 
-  login(userId: string): { access_token: string } {
+  login(userId: string): string {
     const payload: PayloadToken = { userId };
+    return this.jwtService.sign(payload);
+  }
 
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+  storeTokenInCookie(token: string, context): void {
+    context.res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.production,
+      sameSite: 'lax',
+      maxAge: process.env.cookieMaxAge,
+    });
   }
 }

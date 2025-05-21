@@ -20,9 +20,24 @@ class Maps {
 }
 
 @ObjectType()
+class CountryName {
+  @Field()
+  common: string;
+
+  @Field()
+  official: string;
+}
+
+@ObjectType()
+class Flags {
+  @Field()
+  png: string;
+}
+
+@ObjectType()
 export class Country {
   @Field()
-  name: string;
+  name: CountryName;
 
   @Field(() => GeoJSONScalar, { nullable: true })
   geoJson: string;
@@ -57,9 +72,6 @@ export class Country {
   @Field(() => [Currency])
   currencies: Currency[];
 
-  @Field()
-  callingcode: string;
-
   @Field(() => [String])
   capital: string[];
 
@@ -91,7 +103,7 @@ export class Country {
   area: number;
 
   @Field()
-  flag: string;
+  flags: Flags;
 
   @Field()
   coatOfArms: string;

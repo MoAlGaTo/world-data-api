@@ -2,7 +2,6 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom, map } from 'rxjs';
 import { Country } from './dtos/country.dto';
-// import { lookUp } from 'geojson-places';
 import * as geoJsonPlaces from 'geojson-places';
 
 @Injectable()
@@ -10,24 +9,20 @@ export class MapService {
   constructor(private httpService: HttpService) {}
 
   async getCountriesData(): Promise<Country[]> {
-    // console.log('');
-    // console.log(
-    //   '>>> ',
-    //   JSON.stringify(geoJsonPlaces.getCountryGeoJSONByAlpha2('AF')),
-    // );
-    // console.log('');
     const response = await firstValueFrom(
       this.httpService
-        .get<Country[]>('https://countryinfoapi.com/api/countries')
+        .get<Country[]>('https://restcountries.com/v3.1/all')
         .pipe(
           map((response) => {
             const countries = response.data;
             return countries.map((country) => ({
               ...country,
-              currencies: Object.entries(country.currencies || {}).map(
-                ([code, details]) => ({ code, ...details }),
+              capital: country.capital || [],
+              currencies: Object.keys(country.currencies || {}).map(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                (key) => country.currencies[key],
               ),
-              languages: Object.values(country.languages),
+              languages: Object.values(country.languages || {}),
               geoJson: geoJsonPlaces.getCountryGeoJSONByAlpha2(country.cca2),
             }));
           }),
@@ -35,6 +30,4 @@ export class MapService {
     );
     return response;
   }
-
-  getCountryGeoJson() {}
 }

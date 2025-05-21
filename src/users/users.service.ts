@@ -12,6 +12,7 @@ import { LoginInput } from './dtos/login.input';
 import { AuthService } from './auth.service';
 import { plainToClass } from 'class-transformer';
 import { UserDto } from './dtos/user.dto';
+import { LoginResponseDto } from './dtos/login-response.dto';
 
 @Injectable()
 export class UsersService {
@@ -31,10 +32,7 @@ export class UsersService {
     return createdUser.save();
   }
 
-  async login(user: LoginInput): Promise<{
-    user: UserDto;
-    access_token: string;
-  }> {
+  async login(user: LoginInput, context): Promise<LoginResponseDto> {
     const foundUser: User | null = await this.userModel.findOne({
       email: user.email,
     });
@@ -46,14 +44,15 @@ export class UsersService {
       user.password,
       foundUser.password,
     );
+
     if (!isPasswordValid) {
       throw new BadRequestException('Bad password');
     }
 
     const token = this.authService.login(foundUser._id);
+    this.authService.storeTokenInCookie(token, context);
 
     return {
-      ...token,
       user: plainToClass(UserDto, foundUser),
     };
   }

@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { User } from './user.schema';
 import { UsersService } from './users.service';
 import { CreateUserInput } from './dtos/create-user.input';
@@ -23,8 +23,9 @@ export class UsersResolver {
   @Mutation(() => LoginResponseDto)
   async login(
     @Args('input') loginInput: LoginInput,
+    @Context() context,
   ): Promise<LoginResponseDto> {
-    return this.userService.login(loginInput);
+    return this.userService.login(loginInput, context);
   }
 
   @Query(() => User)
@@ -34,8 +35,9 @@ export class UsersResolver {
     return user;
   }
 
-  @Query(() => [User]) // adding mandatory query request
-  getUsers() {
-    return {};
+  @Mutation(() => Boolean)
+  logout(@Context() context) {
+    context.res.clearCookie('token');
+    return true;
   }
 }
